@@ -11,8 +11,7 @@ namespace InfocomDinnerRoom.Infrastructure.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        public UnitOfWork(
-            IDishRepository dishRepository,
+        public UnitOfWork(IDishRepository dishRepository,
             IOrderRuleRepository orderRuleRepository,
             IRoleRepository roleRepository,
             IWeekRepository weekRepository,
