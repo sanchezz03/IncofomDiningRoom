@@ -49,5 +49,39 @@ namespace InfocomDinnerRoom.WebApi.Controllers
 
             return Ok(data);
         }
+
+        [HttpPost]
+        [Route("AllowableCreditAndOrderDeadline")]
+        public async Task<IActionResult> AllowableCreditAndOrderDeadline(int allowableCredit, string orderDeadline)
+        {
+            TimeSpan parsedOrderDeadline;
+
+            if (!TimeSpan.TryParse(orderDeadline, out parsedOrderDeadline))
+            {
+                return BadRequest("Invalid orderDeadline format");
+            }
+
+            var data = await _unitOfWork.Users.AddInfoAboutOrdersRule(allowableCredit, parsedOrderDeadline);
+
+            return Ok(data);
+        }
+
+        [HttpGet]
+        [Route("GetNotActiveUsers")]
+        public async Task<IActionResult> ShowNotActiveUsers()
+        {
+            var data = await _unitOfWork.Users.ShowNotActiveUsers();
+
+            return Ok(data);
+        }
+
+        [HttpGet]
+        [Route("GetUsersByWord")]
+        public async Task<IActionResult> FindUsersByWord(string word)
+        {
+            var data = await _unitOfWork.Users.SearchUsersByWord(word);
+
+            return Ok(data);
+        }
     }
 }
