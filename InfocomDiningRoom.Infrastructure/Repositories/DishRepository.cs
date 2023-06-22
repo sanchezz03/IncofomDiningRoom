@@ -149,5 +149,21 @@ namespace InfocomDinnerRoom.Infrastructure.Repositories
                 return dishes.ToList();
             }
         }
+        public async Task<IReadOnlyList<DishInfo>> FindDishesByName(string dishName)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var query = @"
+            SELECT Id, CurrentPrice, Name, Description
+            FROM Dishes
+            WHERE Name = @DishName";
+
+                var dishes = await connection.QueryAsync<DishInfo>(query, new { DishName = dishName });
+
+                return dishes.ToList();
+            }
+        }
     }
 }

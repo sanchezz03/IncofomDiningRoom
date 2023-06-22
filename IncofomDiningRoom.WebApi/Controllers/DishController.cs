@@ -82,5 +82,14 @@ namespace InfocomDinnerRoom.WebApi.Controllers
 
             return Ok(data);
         }
+
+        [HttpGet]
+        [Route("FindByName")]
+        public async Task<IActionResult> FindByName(string nameOfDish)
+        {
+            var data = await _unitOfWork.Dishes.FindDishesByName(nameOfDish);
+
+            return Ok(data);
+        }
     }
 }

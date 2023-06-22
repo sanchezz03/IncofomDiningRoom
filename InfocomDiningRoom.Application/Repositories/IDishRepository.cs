@@ -14,5 +14,6 @@ namespace InfocomDinnerRoom.Application.Repositories
         Task<IReadOnlyList<DishInfo>> GetSecondDishes();
         Task<IReadOnlyList<DishInfo>> GetSalad();
         Task<IReadOnlyList<DishInfo>> GetDrinks();
+        Task<IReadOnlyList<DishInfo>> FindDishesByName(string dishName);
     }
 }
