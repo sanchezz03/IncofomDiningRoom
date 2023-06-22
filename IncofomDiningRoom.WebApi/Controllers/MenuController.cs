@@ -1,4 +1,5 @@
-﻿using InfocomDinnerRoom.Core.Models;
+﻿using InfocomDiningRoom.Core.Models.Menu;
+using InfocomDinnerRoom.Core.Models;
 using InfocomDinnerRoom.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -49,6 +50,24 @@ namespace InfocomDinnerRoom.WebApi.Controllers
             var data = await _unitOfWork.Menus.UpdateAsync(menu);
 
             return Ok(data);
+        }
+
+        [HttpGet]
+        [Route("GetMenu")]
+        public async Task<IActionResult> GetMenu(int weekNumber)
+        {
+            var data = await _unitOfWork.Menus.GetMenu(weekNumber);
+
+            return Ok(data);
+        }
+
+        [HttpPut]
+        [Route("UpdateMenu")]
+        public async Task<IActionResult> UpdateMenu(List<MenuInfo> menu)
+        {
+            await _unitOfWork.Menus.UpdateMenuInfo(menu);
+
+            return Ok();
         }
     }
 }
