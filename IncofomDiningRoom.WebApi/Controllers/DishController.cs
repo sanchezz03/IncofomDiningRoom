@@ -49,5 +49,38 @@ namespace InfocomDinnerRoom.WebApi.Controllers
 
             return Ok(data);
         }
+
+        [HttpGet]
+        [Route("GetFirstDishes")]
+        public async Task<IActionResult> GetFirstDishes()
+        {
+            var data = await _unitOfWork.Dishes.GetFirstDishes();
+
+            return Ok(data);
+        }
+        [HttpGet]
+        [Route("GetSecondDishes")]
+        public async Task<IActionResult> GetSecondDishes()
+        {
+            var data = await _unitOfWork.Dishes.GetSecondDishes();
+
+            return Ok(data);
+        }
+        [HttpGet]
+        [Route("GetSalad")]
+        public async Task<IActionResult> GetSalad()
+        {
+            var data = await _unitOfWork.Dishes.GetSalad();
+
+            return Ok(data);
+        }
+        [HttpGet]
+        [Route("GetDrinks")]
+        public async Task<IActionResult> GetDrinks()
+        {
+            var data = await _unitOfWork.Dishes.GetDrinks();
+
+            return Ok(data);
+        }
     }
 }
