@@ -1,4 +1,6 @@
-﻿using InfocomDinnerRoom.Application.Repositories;
+﻿using InfocomDiningRoom.Application.Repositories.Auth;
+using InfocomDiningRoom.Application.Repositories.Management;
+using InfocomDinnerRoom.Application.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +21,7 @@ namespace InfocomDinnerRoom.Infrastructure.Interfaces
         IMenuRepository Menus { get; }
         IOrderRepository Orders { get; }
         IOrderDetailRepository OrderDetails { get; }
+        IAuthRepository Auths { get; }
+        IManagementRepository Managements { get; }
     }
 }
