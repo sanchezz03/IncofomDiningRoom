@@ -1,4 +1,5 @@
 ﻿using InfocomDiningRoom.Application.Repositories.Auth;
+using InfocomDiningRoom.Application.Repositories.Balance;
 using InfocomDiningRoom.Application.Repositories.Management;
 using InfocomDiningRoom.Infrastructure.Repositories;
 using InfocomDinnerRoom.Application.Repositories;
@@ -24,6 +25,7 @@ namespace InfocomDinnerRoom.WebApi.Extensions
             services.AddTransient<IOrderDetailRepository, OrderDetailRepository>();
             services.AddTransient<IAuthRepository, AuthRepository>();
             services.AddTransient<IManagementRepository, ManagementRepository>();
+            services.AddTransient<IBalanceRepository,BalanceRepository>();
         }
     }
 }

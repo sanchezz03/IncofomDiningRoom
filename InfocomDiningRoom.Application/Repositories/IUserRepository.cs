@@ -9,5 +9,8 @@ namespace InfocomDinnerRoom.Application.Repositories
 {
     public interface IUserRepository : IGenericRepository<User>
     {
+        Task<bool> AddInfoAboutOrdersRule(int allowableCredit, TimeSpan orderDeadline);
+        Task<IEnumerable<PersonalInfo>> ShowNotActiveUsers();
+        Task<IEnumerable<PersonalInfo>> SearchUsersByWord(string searchValue);
     }
 }

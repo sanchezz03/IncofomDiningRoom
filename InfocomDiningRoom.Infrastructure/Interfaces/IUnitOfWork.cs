@@ -1,4 +1,5 @@
 ﻿using InfocomDiningRoom.Application.Repositories.Auth;
+using InfocomDiningRoom.Application.Repositories.Balance;
 using InfocomDiningRoom.Application.Repositories.Management;
 using InfocomDinnerRoom.Application.Repositories;
 using System;
@@ -23,5 +24,6 @@ namespace InfocomDinnerRoom.Infrastructure.Interfaces
         IOrderDetailRepository OrderDetails { get; }
         IAuthRepository Auths { get; }
         IManagementRepository Managements { get; }
+        IBalanceRepository Balances { get; }
     }
 }

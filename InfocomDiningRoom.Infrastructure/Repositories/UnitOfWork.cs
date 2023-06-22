@@ -1,4 +1,5 @@
 ﻿using InfocomDiningRoom.Application.Repositories.Auth;
+using InfocomDiningRoom.Application.Repositories.Balance;
 using InfocomDiningRoom.Application.Repositories.Management;
 using InfocomDinnerRoom.Application.Repositories;
 using InfocomDinnerRoom.Core.Models;
@@ -24,7 +25,8 @@ namespace InfocomDinnerRoom.Infrastructure.Repositories
             IOrderRepository orderRepository,
             IOrderDetailRepository orderDetailRepository,
             IAuthRepository authRepository,
-            IManagementRepository managementRepository
+            IManagementRepository managementRepository,
+            IBalanceRepository balanceRepository
             )
         {
             Dishes = dishRepository;
@@ -39,6 +41,7 @@ namespace InfocomDinnerRoom.Infrastructure.Repositories
             OrderDetails = orderDetailRepository;
             Auths = authRepository;
             Managements = managementRepository;
+            Balances = balanceRepository;
         }
 
         public IDishRepository Dishes { get; }
@@ -51,8 +54,8 @@ namespace InfocomDinnerRoom.Infrastructure.Repositories
         public IMenuRepository Menus { get; }
         public IOrderRepository Orders { get; }
         public IOrderDetailRepository OrderDetails { get; }
-
         public IAuthRepository Auths { get; }
         public IManagementRepository Managements { get; }
+        public IBalanceRepository Balances { get; }
     }
 }
