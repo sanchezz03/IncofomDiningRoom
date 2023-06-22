@@ -1,6 +1,12 @@
 using InfocomDinnerRoom.WebApi.Extensions;
+using Npgsql;
+using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<IDbConnection>(c => new NpgsqlConnection(
+    builder.Configuration.GetConnectionString("DefaultConnection")
+    ));
 
 // Add services to the container.
 builder.Services.AddApplicationServices();
