@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using InfocomDiningRoom.Core.Models.Dish;
 using InfocomDinnerRoom.Application.Repositories;
 using InfocomDinnerRoom.Core.Models;
 using Microsoft.Extensions.Configuration;
@@ -79,6 +80,89 @@ namespace InfocomDinnerRoom.Infrastructure.Repositories
                 var result = await connection.QuerySingleOrDefaultAsync<Dish>(query, new { Id = id });
 
                 return result;
+            }
+        }
+
+        public async Task<IReadOnlyList<DishInfo>> GetFirstDishes()
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var query = @"
+            SELECT Id, CurrentPrice, Name, Description
+            FROM Dishes
+            WHERE TypeName = 'Суп'";
+
+                var dishes = await connection.QueryAsync<DishInfo>(query);
+                return dishes.ToList();
+            }
+        }
+
+        public async Task<IReadOnlyList<DishInfo>> GetSecondDishes()
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var query = @"
+            SELECT Id, CurrentPrice, Name, Description
+            FROM Dishes
+            WHERE TypeName = 'Головна страва'";
+
+                var dishes = await connection.QueryAsync<DishInfo>(query);
+
+                return dishes.ToList();
+            }
+        }
+
+        public async Task<IReadOnlyList<DishInfo>> GetSalad()
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var query = @"
+            SELECT Id, CurrentPrice, Name, Description
+            FROM Dishes
+            WHERE TypeName = 'Салат'";
+
+                var dishes = await connection.QueryAsync<DishInfo>(query);
+
+                return dishes.ToList();
+            }
+        }
+
+        public async Task<IReadOnlyList<DishInfo>> GetDrinks()
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var query = @"
+            SELECT Id, CurrentPrice, Name, Description
+            FROM Dishes
+            WHERE TypeName = 'Напій'";
+
+                var dishes = await connection.QueryAsync<DishInfo>(query);
+
+                return dishes.ToList();
+            }
+        }
+        public async Task<IReadOnlyList<DishInfo>> FindDishesByName(string dishName)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var query = @"
+            SELECT Id, CurrentPrice, Name, Description
+            FROM Dishes
+            WHERE Name = @DishName";
+
+                var dishes = await connection.QueryAsync<DishInfo>(query, new { DishName = dishName });
+
+                return dishes.ToList();
             }
         }
     }
