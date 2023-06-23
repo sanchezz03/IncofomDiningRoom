@@ -1,4 +1,6 @@
-﻿using InfocomDinnerRoom.Core.Models;
+﻿using InfocomDiningRoom.Core.Models.Menu;
+using InfocomDiningRoom.Core.Models.Payment;
+using InfocomDinnerRoom.Core.Models;
 using InfocomDinnerRoom.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,6 +48,22 @@ namespace InfocomDinnerRoom.WebApi.Controllers
         public async Task<IActionResult> Update(PayInfo payInfo)
         {
             var data = await _unitOfWork.PayInfos.UpdateAsync(payInfo);
+
+            return Ok(data);
+        }
+        [HttpGet]
+        [Route("PayInfo")]
+        public async Task<IActionResult> GetPayInfo(int weekNumber)
+        {
+            var data = await _unitOfWork.PayInfos.GetMenuInfo(weekNumber);
+
+            return Ok(data);
+        }
+        [HttpPut]
+        [Route("UpdateBalance")]
+        public async Task<IActionResult> UpdateBalance(MenuPaymentInfo menuInfos, decimal balance)
+        {
+            var data = await _unitOfWork.PayInfos.UpdateBalance(menuInfos, balance);
 
             return Ok(data);
         }

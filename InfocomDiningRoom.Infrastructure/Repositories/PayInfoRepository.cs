@@ -1,14 +1,10 @@
 ﻿using Dapper;
+using InfocomDiningRoom.Core.Models.Payment;
 using InfocomDinnerRoom.Application.Repositories;
 using InfocomDinnerRoom.Core.Models;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
-using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InfocomDinnerRoom.Infrastructure.Repositories
 {
@@ -21,7 +17,7 @@ namespace InfocomDinnerRoom.Infrastructure.Repositories
         {
             _configuration = configuration;
             _connectionString = _configuration.GetConnectionString("DbConnection")
-                ?? throw new ArgumentNullException(nameof(_connectionString), "DefaultConnection is missing in the configuration."); 
+                ?? throw new ArgumentNullException(nameof(_connectionString), "DefaultConnection is missing in the configuration.");
         }
 
         public async Task<IReadOnlyList<PayInfo>> GetAllAsync()
@@ -80,6 +76,80 @@ namespace InfocomDinnerRoom.Infrastructure.Repositories
 
                 return result;
             }
+        }
+
+        public async Task<IEnumerable<MenuPaymentInfo>> GetMenuInfo(int weekNumber)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var query = @"
+                            SELECT CONCAT(p.Name, ' ', p.Surname) AS FIO, m.WeekDay, d.TypeName, d.Name, m.Cost, pay.TotalAccured, p.Balance
+                            FROM PersonalInfo p
+                            JOIN PayInfo pay ON pay.PersonalInfoId = p.Id
+                            JOIN Week w ON w.Id = pay.WeekId
+                            JOIN Menu m ON m.WeekId = w.Id
+                            JOIN Dishes d ON d.Id = m.DishId
+                            WHERE w.WeekNumber = @WeekNumber";
+
+                var menuInfoList = new List<MenuPaymentInfo>();
+
+                await connection.QueryAsync<MenuPaymentInfo, string, string, string, decimal, decimal, decimal, MenuPaymentInfo>(
+                    query,
+                    (info, weekDay, typeName, dishName, currentPrice, totalAccured, balance) =>
+                    {
+                        if (info.Weeks == null)
+                            info.Weeks = new Dictionary<string, Dictionary<string, decimal>>();
+
+                        if (!info.Weeks.TryGetValue(weekDay, out var dayMenu))
+                        {
+                            dayMenu = new Dictionary<string, decimal>();
+                            info.Weeks.Add(weekDay, dayMenu);
+                        }
+
+                        dayMenu.Add(dishName, currentPrice);
+
+                        info.TotalCost += currentPrice;
+                        info.TotalPaid += totalAccured;
+                        info.Balance = balance;
+
+                        menuInfoList.Add(info);
+
+                        return info;
+                    },
+                    splitOn: "WeekDay,TypeName,Name,Cost,TotalAccured,Balance",
+                    param: new { WeekNumber = weekNumber });
+
+                return menuInfoList;
+            }
+        }
+        public async Task<MenuPaymentInfo> UpdateBalance(MenuPaymentInfo menuInfo, decimal newBalance)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var query = @"
+            SELECT Id
+            FROM PersonalInfo
+            WHERE CONCAT(Name, ' ', Surname) = @FIO";
+
+                var personalInfoId = await connection.ExecuteScalarAsync<int>(query, new { FIO = menuInfo.FIO });
+
+                if (personalInfoId != 0)
+                {
+                    var updateQuery = @"
+                UPDATE PersonalInfo
+                SET Balance = @NewBalance
+                WHERE Id = @Id";
+
+                    await connection.ExecuteAsync(updateQuery, new { NewBalance = newBalance, Id = personalInfoId });
+                }
+            }
+
+            menuInfo.Balance = newBalance;
+            return menuInfo;
         }
     }
 }
