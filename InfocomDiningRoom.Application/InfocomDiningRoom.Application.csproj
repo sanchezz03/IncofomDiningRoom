@@ -14,4 +14,8 @@
     <ProjectReference Include="..\InfocomDiningRoom.Core\InfocomDiningRoom.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\Request\UserRequest\" />
+  </ItemGroup>
+
 </Project>

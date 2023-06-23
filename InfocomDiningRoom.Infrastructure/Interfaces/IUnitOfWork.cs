@@ -1,6 +1,7 @@
 ﻿using InfocomDiningRoom.Application.Repositories.Auth;
 using InfocomDiningRoom.Application.Repositories.Balance;
 using InfocomDiningRoom.Application.Repositories.Management;
+using InfocomDiningRoom.Application.Repositories.Request.AdminRequest;
 using InfocomDinnerRoom.Application.Repositories;
 using System;
 using System.Collections.Generic;
@@ -25,5 +26,6 @@ namespace InfocomDinnerRoom.Infrastructure.Interfaces
         IAuthRepository Auths { get; }
         IManagementRepository Managements { get; }
         IBalanceRepository Balances { get; }
+        IAdminRequestRepository Admins { get; }
     }
 }
