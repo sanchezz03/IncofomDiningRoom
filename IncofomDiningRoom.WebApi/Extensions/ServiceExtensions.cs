@@ -1,4 +1,10 @@
-﻿using InfocomDinnerRoom.Application.Repositories;
+﻿using InfocomDiningRoom.Application.Repositories.Auth;
+using InfocomDiningRoom.Application.Repositories.Balance;
+using InfocomDiningRoom.Application.Repositories.Management;
+using InfocomDiningRoom.Application.Repositories.Request.AdminRequest;
+using InfocomDiningRoom.Application.Repositories.Request.UserRequest;
+using InfocomDiningRoom.Infrastructure.Repositories;
+using InfocomDinnerRoom.Application.Repositories;
 using InfocomDinnerRoom.Infrastructure.Interfaces;
 using InfocomDinnerRoom.Infrastructure.Repositories;
 
@@ -19,6 +25,11 @@ namespace InfocomDinnerRoom.WebApi.Extensions
             services.AddTransient<IMenuRepository, MenuRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IOrderDetailRepository, OrderDetailRepository>();
+            services.AddTransient<IAuthRepository, AuthRepository>();
+            services.AddTransient<IManagementRepository, ManagementRepository>();
+            services.AddTransient<IBalanceRepository,BalanceRepository>();
+            services.AddTransient<IAdminRequestRepository, AdminRequestReporitory>();
+            services.AddTransient<IUserRequestRepository,UserRequestRepository>();
         }
     }
 }

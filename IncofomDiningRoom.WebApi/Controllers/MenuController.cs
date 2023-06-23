@@ -1,10 +1,13 @@
-﻿using InfocomDinnerRoom.Core.Models;
+﻿using InfocomDiningRoom.Core.Models.Menu;
+using InfocomDinnerRoom.Core.Models;
 using InfocomDinnerRoom.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InfocomDinnerRoom.WebApi.Controllers
 {
+    [Authorize(Roles = "Адміністратор, Користувач")]
     [Route("api/[controller]")]
     [ApiController]
     public class MenuController : ControllerBase
@@ -14,7 +17,7 @@ namespace InfocomDinnerRoom.WebApi.Controllers
         {
             _unitOfWork = unitOfWork;
         }
-
+        [Authorize(Roles = "Адміністратор")]
         [HttpGet]
         [Route("GetAll")]
         public async Task<IActionResult> GetAll()
@@ -23,7 +26,7 @@ namespace InfocomDinnerRoom.WebApi.Controllers
 
             return Ok(data);
         }
-
+        [Authorize(Roles = "Адміністратор")]
         [HttpPost]
         [Route("Add")]
         public async Task<IActionResult> Add(Menu menu)
@@ -32,7 +35,7 @@ namespace InfocomDinnerRoom.WebApi.Controllers
 
             return Ok(data);
         }
-
+        [Authorize(Roles = "Адміністратор")]
         [HttpDelete]
         [Route("Delete")]
         public async Task<IActionResult> Delete(int id)
@@ -41,7 +44,7 @@ namespace InfocomDinnerRoom.WebApi.Controllers
 
             return Ok(data);
         }
-
+        [Authorize(Roles = "Адміністратор")]
         [HttpPut]
         [Route("Update")]
         public async Task<IActionResult> Update(Menu menu)
@@ -49,6 +52,24 @@ namespace InfocomDinnerRoom.WebApi.Controllers
             var data = await _unitOfWork.Menus.UpdateAsync(menu);
 
             return Ok(data);
+        }
+
+        [HttpGet]
+        [Route("GetMenu")]
+        public async Task<IActionResult> GetMenu(int weekNumber)
+        {
+            var data = await _unitOfWork.Menus.GetMenu(weekNumber);
+
+            return Ok(data);
+        }
+        [Authorize(Roles = "Адміністратор")]
+        [HttpPut]
+        [Route("UpdateMenu")]
+        public async Task<IActionResult> UpdateMenu(List<MenuInfo> menu)
+        {
+            await _unitOfWork.Menus.UpdateMenuInfo(menu);
+
+            return Ok();
         }
     }
 }

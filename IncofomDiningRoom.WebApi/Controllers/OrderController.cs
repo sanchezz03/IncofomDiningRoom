@@ -1,10 +1,12 @@
 ﻿using InfocomDinnerRoom.Core.Models;
 using InfocomDinnerRoom.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InfocomDinnerRoom.WebApi.Controllers
 {
+    [Authorize(Roles = "Адміністратор")]
     [Route("api/[controller]")]
     [ApiController]
     public class OrderController : ControllerBase
