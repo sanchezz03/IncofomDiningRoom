@@ -2,6 +2,7 @@
 using InfocomDiningRoom.Application.Repositories.Balance;
 using InfocomDiningRoom.Application.Repositories.Management;
 using InfocomDiningRoom.Application.Repositories.Request.AdminRequest;
+using InfocomDiningRoom.Application.Repositories.Request.UserRequest;
 using InfocomDiningRoom.Infrastructure.Repositories;
 using InfocomDinnerRoom.Application.Repositories;
 using InfocomDinnerRoom.Infrastructure.Interfaces;
@@ -28,6 +29,7 @@ namespace InfocomDinnerRoom.WebApi.Extensions
             services.AddTransient<IManagementRepository, ManagementRepository>();
             services.AddTransient<IBalanceRepository,BalanceRepository>();
             services.AddTransient<IAdminRequestRepository, AdminRequestReporitory>();
+            services.AddTransient<IUserRequestRepository,UserRequestRepository>();
         }
     }
 }

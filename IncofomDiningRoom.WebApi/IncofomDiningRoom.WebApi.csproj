@@ -15,8 +15,4 @@
     <ProjectReference Include="..\InfocomDiningRoom.Infrastructure\InfocomDiningRoom.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\Request\UserRequest\" />
-  </ItemGroup>
-
 </Project>
