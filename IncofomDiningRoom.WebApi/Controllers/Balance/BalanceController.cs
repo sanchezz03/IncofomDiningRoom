@@ -1,9 +1,11 @@
 ﻿using InfocomDinnerRoom.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IncofomDiningRoom.WebApi.Controllers.Balance
 {
+    [Authorize(Roles = "Адміністратор, Користувач")]
     [Route("api/[controller]")]
     [ApiController]
     public class BalanceController : ControllerBase

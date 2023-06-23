@@ -4,6 +4,6 @@ namespace InfocomDiningRoom.Application.Repositories.Auth
 {
     public interface IAuthRepository
     {
-        Task<bool> Login(string email, string password);
+        Task<string> Login(string email, string password);
     }
 }
