@@ -2,6 +2,11 @@
 using InfocomDinnerRoom.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace IncofomDiningRoom.WebApi.Controllers.AuthController
 {
@@ -10,9 +15,12 @@ namespace IncofomDiningRoom.WebApi.Controllers.AuthController
     public class AuthController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        public AuthController(IUnitOfWork unitOfWork)
+        private readonly IConfiguration _configuration;
+        public AuthController(IUnitOfWork unitOfWork
+            , IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
+            _configuration = configuration;
         }
 
         [HttpPost]
@@ -21,8 +29,10 @@ namespace IncofomDiningRoom.WebApi.Controllers.AuthController
         {
             var data = await _unitOfWork.Auths.Login(userName, password);
 
-            if(data)
-               return Ok();
+            if (data != "")
+            {
+                return Ok(data);
+            }
             else
                 return BadRequest();
         }

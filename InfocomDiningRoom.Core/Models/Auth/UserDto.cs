@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace InfocomDiningRoom.Core.Models.Auth
 {
-    public class User
+    public class UserDto
     {
-        public string? userName { get; set; }
-        public string? password { get; set; }
-
-        public string? role { get; set; }
+        public required string Username { get; set; }
+        public string Password { get; set; }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using InfocomDinnerRoom.Core.Models;
 using InfocomDinnerRoom.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InfocomDinnerRoom.WebApi.Controllers
 {
+    [Authorize(Roles = "Адміністратор, Користувач")]
     [ApiController]
     [Route("[controller]")]
     public class DishController : ControllerBase
@@ -13,7 +15,7 @@ namespace InfocomDinnerRoom.WebApi.Controllers
         {
             _unitOfWork = unitOfWork;
         }
-
+        [Authorize(Roles = "Адміністратор")]
         [HttpGet]
         [Route("GetAll")]
         public async Task<IActionResult> GetAll()
@@ -22,7 +24,7 @@ namespace InfocomDinnerRoom.WebApi.Controllers
 
             return Ok(data);
         }
-
+        [Authorize(Roles = "Адміністратор")]
         [HttpPost]
         [Route("Add")]
         public async Task<IActionResult> Add(Dish dish)
@@ -31,7 +33,7 @@ namespace InfocomDinnerRoom.WebApi.Controllers
 
             return Ok(data);
         }
-
+        [Authorize(Roles = "Адміністратор")]
         [HttpDelete]
         [Route("Delete")]
         public async Task<IActionResult> Delete(int id)
@@ -40,7 +42,7 @@ namespace InfocomDinnerRoom.WebApi.Controllers
 
             return Ok(data);
         }
-
+        [Authorize(Roles = "Адміністратор")]
         [HttpPut]
         [Route("Update")]
         public async Task<IActionResult> Update(Dish dish)
